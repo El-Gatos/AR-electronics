@@ -1,287 +1,199 @@
-import React from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import React, { useState } from 'react';
 
 export default function ARElectronicsGallery() {
-  const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [selectedImg, setSelectedImg] = useState(null);
 
+  // Mapped directly to your actual image uploads
   const projects = [
     {
-      title: 'HVAC System Installation',
-      description: 'Complete air conditioning system replacement for residential property',
-      beforeImg: 'bg-blue-200',
-      afterImg: 'bg-blue-400',
-      category: 'HVAC',
-      date: 'January 2025'
-    },
-    {
-      title: 'Appliance Repair - Washer',
-      description: 'Diagnostic and repair of residential washing machine',
-      beforeImg: 'bg-green-200',
-      afterImg: 'bg-green-400',
+      id: 1,
+      src: '1.jpg',
+      title: 'Appliance Board Diagnostic',
       category: 'Appliance',
-      date: 'December 2024'
+      desc: 'Bench testing a faulty appliance control board.'
     },
     {
-      title: 'TV Repair Service',
-      description: 'Professional TV repair and restoration',
-      beforeImg: 'bg-purple-200',
-      afterImg: 'bg-purple-400',
-      category: 'TV',
-      date: 'November 2024'
-    },
-    {
-      title: 'Commercial HVAC Maintenance',
-      description: 'Large-scale commercial HVAC system maintenance and cleaning',
-      beforeImg: 'bg-orange-200',
-      afterImg: 'bg-orange-400',
+      id: 2,
+      src: '2.jpg',
+      title: 'Capacitor Replacement',
       category: 'HVAC',
-      date: 'October 2024'
+      desc: 'Swapping a failed 45/5µF dual run capacitor to restore cooling.'
     },
     {
-      title: 'Refrigerator Repair',
-      description: 'Compressor replacement and refrigerant refill',
-      beforeImg: 'bg-red-200',
-      afterImg: 'bg-red-400',
-      category: 'Appliance',
-      date: 'September 2024'
-    },
-    {
-      title: 'Heat Pump Installation',
-      description: 'New heat pump system installation for energy efficiency',
-      beforeImg: 'bg-indigo-200',
-      afterImg: 'bg-indigo-400',
+      id: 3,
+      src: '3.jpg',
+      title: 'Electrical Troubleshooting',
       category: 'HVAC',
-      date: 'August 2024'
+      desc: 'Testing contactors and high-voltage wiring on an outdoor condenser.'
+    },
+    {
+      id: 4,
+      src: '4.jpg',
+      title: 'PCB Teardown',
+      category: 'Electronics',
+      desc: 'Detailed component-level inspection of a main control board.'
+    },
+    {
+      id: 6,
+      src: '6.jpg',
+      title: 'Main PCB Repair',
+      category: 'Electronics',
+      desc: 'Rewiring and relay replacement on a complex main board.'
+    },
+    {
+      id: 7,
+      src: '7.jpg',
+      title: 'System Commissioning',
+      category: 'HVAC',
+      desc: 'Checking R-410A pressures and subcooling with a digital manifold.'
+    },
+    {
+      id: 8,
+      src: '8.jpg',
+      title: 'Furnace Maintenance',
+      category: 'HVAC',
+      desc: 'Indoor gas furnace inspection, airflow check, and safety testing.'
+    },
+    {
+      id: 9,
+      src: '9.jpg',
+      title: 'Condenser Installation',
+      category: 'HVAC',
+      desc: 'New outdoor AC condenser leveled and commissioned.'
     }
   ];
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % projects.length);
-  };
+  const filters = ['All', 'HVAC', 'Appliance', 'Electronics'];
 
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + projects.length) % projects.length);
-  };
+  const filteredProjects = activeFilter === 'All' 
+    ? projects 
+    : projects.filter(p => p.category === activeFilter);
 
   return (
-    <div className="min-h-screen bg-stone-50" style={{ backgroundColor: '#faf8f5', fontFamily: "'DM Sans', sans-serif" }}>
+    <div className="min-h-screen font-sans antialiased text-[#0a1930]" style={{ backgroundColor: '#FDFBF7' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=DM+Sans:wght@400;500;700&display=swap');
-
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-up {
-          animation: fadeInUp 0.6s ease-out forwards;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap');
+        * { font-family: 'Manrope', sans-serif; }
       `}</style>
 
       {/* Navigation */}
-      <nav className="sticky top-0 bg-stone-50/95 backdrop-blur-sm border-b border-stone-200 z-40">
-        <div className="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
-          <a href="/" className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition">
-            <div 
-              className="w-12 h-12 bg-gray-300 rounded-lg flex items-center justify-center text-gray-600 font-bold text-xs border-2 border-dashed border-gray-400"
-              style={{ fontFamily: "'Poppins', sans-serif" }}
-            >
-              [LOGO]
-            </div>
-            <div>
-              <div className="text-sm font-bold text-stone-900" style={{ fontFamily: "'Poppins', sans-serif" }}>A R Electronics</div>
-              <div className="text-xs text-stone-500">Inland Empire</div>
-            </div>
-          </a>
-          
-          <div className="flex items-center gap-8">
-            <a href="/" className="text-sm text-stone-600 hover:text-amber-700 transition font-medium">Back to Home</a>
-            <a href="tel:9512278016" className="text-amber-700 hover:text-amber-800 text-sm font-bold" style={{ fontFamily: "'Poppins', sans-serif" }}>
+      <nav className="border-b border-[#0a1930]/10 py-5 sticky top-0 bg-[#FDFBF7]/90 backdrop-blur-md z-40">
+        <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+          <div className="flex flex-col">
+            <span className="font-extrabold text-xl tracking-tight">A R ELECTRONIC</span>
+            <span className="text-xs font-semibold tracking-widest text-[#0a1930]/60 uppercase">HVAC & Appliance Service</span>
+          </div>
+          <div className="flex items-center space-x-8">
+            <a href="/" className="text-sm font-bold text-[#0a1930]/70 hover:text-[#005ce6] transition-colors">Back to Home</a>
+            <a href="tel:9512278016" className="hidden md:block bg-[#005ce6] hover:bg-[#0047b3] text-white px-5 py-2.5 rounded-sm font-bold text-sm transition-colors">
               (951) 227-8016
             </a>
           </div>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="bg-stone-100 py-20">
-        <div className="max-w-6xl mx-auto px-8">
-          <h1 className="text-5xl font-bold text-stone-900 mb-6 animate-fade-up" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            Our Work
-          </h1>
-          <p className="text-xl text-stone-600 font-normal max-w-2xl animate-fade-up">
-            See the quality of our repairs and installations. Real projects, real results from satisfied customers across Inland Empire.
-          </p>
+      {/* Header */}
+      <header className="max-w-7xl mx-auto px-6 py-20">
+        <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight mb-6">Field Work Gallery</h1>
+        <p className="text-xl font-medium text-[#0a1930]/70 max-w-2xl">
+          Real jobs. Real diagnostics. See exactly what component-level repair and professional HVAC service looks like in the Inland Empire.
+        </p>
+      </header>
+
+      {/* Filters */}
+      <section className="max-w-7xl mx-auto px-6 mb-12">
+        <div className="flex flex-wrap gap-3">
+          {filters.map(filter => (
+            <button
+              key={filter}
+              onClick={() => setActiveFilter(filter)}
+              className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all ${
+                activeFilter === filter 
+                  ? 'bg-[#0a1930] text-[#FDFBF7]' 
+                  : 'bg-[#0a1930]/5 text-[#0a1930]/70 hover:bg-[#0a1930]/10'
+              }`}
+            >
+              {filter}
+            </button>
+          ))}
         </div>
       </section>
 
-      {/* Gallery Grid */}
-      <section className="max-w-6xl mx-auto px-8 py-20">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, i) => (
+      {/* Masonry/Grid Gallery */}
+      <section className="max-w-7xl mx-auto px-6 pb-24">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredProjects.map((project) => (
             <div 
-              key={i}
-              className="bg-white border border-stone-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 animate-fade-up"
-              style={{ animationDelay: `${i * 0.1}s` }}
+              key={project.id} 
+              className="group cursor-pointer flex flex-col"
+              onClick={() => setSelectedImg(project)}
             >
-              <div className="grid grid-cols-2 gap-0">
-                <div className={`h-48 ${project.beforeImg} flex items-center justify-center text-white font-bold`}>
-                  Before
+              <div className="relative overflow-hidden rounded-sm bg-[#0a1930]/5 aspect-[4/3] mb-4">
+                <div 
+                  className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105"
+                  style={{ 
+                    backgroundImage: `url('${project.src}')`,
+                    backgroundColor: '#e2e8f0' 
+                  }}
+                >
                 </div>
-                <div className={`h-48 ${project.afterImg} flex items-center justify-center text-white font-bold`}>
-                  After
+                <div className="absolute inset-0 bg-[#0a1930]/0 group-hover:bg-[#0a1930]/10 transition-colors duration-300"></div>
+                <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1 text-xs font-extrabold uppercase tracking-widest text-[#005ce6] rounded-sm">
+                  {project.category}
                 </div>
               </div>
-              
-              <div className="p-6">
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="text-xs font-bold text-amber-700 bg-amber-50 px-3 py-1 rounded-full" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                    {project.category}
-                  </span>
-                  <span className="text-xs text-stone-500">{project.date}</span>
-                </div>
-                <h3 className="text-lg font-bold text-stone-900 mb-2" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                  {project.title}
-                </h3>
-                <p className="text-stone-600 font-normal text-sm">
-                  {project.description}
-                </p>
-              </div>
+              <h3 className="text-lg font-bold mb-1">{project.title}</h3>
+              <p className="text-sm font-medium text-[#0a1930]/70">{project.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Featured Project Slider */}
-      <section className="bg-stone-100 py-20">
-        <div className="max-w-4xl mx-auto px-8">
-          <h2 className="text-4xl font-bold text-stone-900 mb-12 text-center" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            Featured Project
-          </h2>
-
-          <div className="bg-white rounded-lg border border-stone-200 overflow-hidden">
-            <div className="grid md:grid-cols-2 gap-0">
-              <div className={`h-96 ${projects[currentSlide].beforeImg} flex items-center justify-center`}>
-                <div className="text-center">
-                  <p className="text-white font-bold text-2xl" style={{ fontFamily: "'Poppins', sans-serif" }}>Before</p>
-                </div>
+      {/* Lightbox Modal */}
+      {selectedImg && (
+        <div 
+          className="fixed inset-0 z-50 bg-[#0a1930]/95 flex items-center justify-center p-4 backdrop-blur-sm cursor-pointer"
+          onClick={() => setSelectedImg(null)}
+        >
+          <div className="max-w-5xl w-full flex flex-col" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-4">
+              <div>
+                <h3 className="text-white text-xl font-bold">{selectedImg.title}</h3>
+                <p className="text-white/70 text-sm font-medium">{selectedImg.desc}</p>
               </div>
-              <div className={`h-96 ${projects[currentSlide].afterImg} flex items-center justify-center`}>
-                <div className="text-center">
-                  <p className="text-white font-bold text-2xl" style={{ fontFamily: "'Poppins', sans-serif" }}>After</p>
-                </div>
-              </div>
+              <button 
+                onClick={() => setSelectedImg(null)}
+                className="text-white/70 hover:text-white p-2"
+              >
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
             </div>
-
-            <div className="p-8 border-t border-stone-200">
-              <h3 className="text-2xl font-bold text-stone-900 mb-3" style={{ fontFamily: "'Poppins', sans-serif" }}>
-                {projects[currentSlide].title}
-              </h3>
-              <p className="text-stone-600 font-normal mb-6 text-lg">
-                {projects[currentSlide].description}
-              </p>
-              
-              <div className="flex items-center justify-between">
-                <div className="flex gap-2">
-                  {projects.map((_, i) => (
-                    <button
-                      key={i}
-                      onClick={() => setCurrentSlide(i)}
-                      className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                        i === currentSlide ? 'bg-amber-700 w-8' : 'bg-stone-300'
-                      }`}
-                    />
-                  ))}
-                </div>
-
-                <div className="flex gap-4">
-                  <button
-                    onClick={prevSlide}
-                    className="p-2 bg-stone-100 hover:bg-amber-700 text-stone-900 hover:text-white rounded-lg transition-all duration-300"
-                  >
-                    <ChevronLeft size={24} />
-                  </button>
-                  <button
-                    onClick={nextSlide}
-                    className="p-2 bg-stone-100 hover:bg-amber-700 text-stone-900 hover:text-white rounded-lg transition-all duration-300"
-                  >
-                    <ChevronRight size={24} />
-                  </button>
-                </div>
-              </div>
+            <div className="relative bg-black rounded-sm overflow-hidden aspect-[4/3] md:aspect-video flex items-center justify-center">
+              <img 
+                src={selectedImg.src} 
+                alt={selectedImg.title} 
+                className="max-w-full max-h-[80vh] object-contain"
+              />
             </div>
           </div>
         </div>
-      </section>
-
-      {/* CTA */}
-      <section className="bg-stone-900 text-white py-20">
-        <div className="max-w-6xl mx-auto px-8 text-center">
-          <h2 className="text-4xl font-bold mb-6" style={{ fontFamily: "'Poppins', sans-serif" }}>
-            Ready for your next repair?
-          </h2>
-          <p className="text-stone-300 font-normal mb-10 max-w-2xl mx-auto text-lg">
-            We've helped hundreds of families and businesses in Inland Empire. Let us help you too.
-          </p>
-          <a 
-            href="tel:9512278016"
-            className="inline-block bg-amber-700 hover:bg-amber-800 text-white px-10 py-5 text-base font-bold transition-all duration-300"
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-          >
-            Call (951) 227-8016
-          </a>
-        </div>
-      </section>
+      )}
 
       {/* Footer */}
-      <footer className="bg-stone-900 text-stone-400 border-t border-stone-800 py-16">
-        <div className="max-w-6xl mx-auto px-8">
-          <div className="grid md:grid-cols-4 gap-12 mb-12 pb-12 border-b border-stone-800">
-            <div>
-              <p className="text-stone-300 font-bold mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>Contact</p>
-              <a href="tel:9512278016" className="font-normal hover:text-amber-700">
-                (951) 227-8016
-              </a>
-              <p className="text-sm font-normal">24/7 Emergency</p>
-            </div>
-            <div>
-              <p className="text-stone-300 font-bold mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>Hours</p>
-              <p className="font-normal mb-1">Mon - Sat: 8:30 AM - 4:30 PM</p>
-              <p className="text-sm font-normal">Emergency anytime</p>
-            </div>
-            <div>
-              <p className="text-stone-300 font-bold mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>Location</p>
-              <p className="font-normal text-sm leading-relaxed">
-                23172 Dracaea Ave<br />
-                Moreno Valley, CA 92553
-              </p>
-            </div>
-            <div>
-              <p className="text-stone-300 font-bold mb-4" style={{ fontFamily: "'Poppins', sans-serif" }}>Email</p>
-              <a href="mailto:arelectronicusa@gmail.com" className="font-normal hover:text-amber-700">
-                arelectronicusa@gmail.com
-              </a>
-            </div>
+      <footer className="bg-[#0a1930] text-[#FDFBF7] py-16">
+        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h3 className="text-2xl font-extrabold mb-2">A R Electronic Service</h3>
+            <p className="text-white/60 font-medium text-sm leading-relaxed max-w-sm">
+              Real diagnostics, flat-rate pricing, and component-level repair across the Inland Empire.
+            </p>
           </div>
-          
-          <div className="text-center text-sm font-normal mb-6">
-            <p>&copy; 2026 A R Electronics. All rights reserved.</p>
-          </div>
-
-          <div className="text-center text-xs text-stone-500 space-x-4">
-            <a href="/legal" className="hover:text-amber-700">Legal Notice</a>
-            <span>•</span>
-            <a href="/legal" className="hover:text-amber-700">Privacy Policy</a>
-            <span>•</span>
-            <a href="/legal" className="hover:text-amber-700">Terms & Conditions</a>
-            <span>•</span>
-            <a href="/gallery" className="hover:text-amber-700">Gallery</a>
+          <div className="md:text-right">
+            <div className="text-sm font-bold uppercase tracking-widest text-white/40 mb-2">Direct Dispatch</div>
+            <a href="tel:9512278016" className="text-3xl font-extrabold hover:text-[#005ce6] transition-colors block mb-2">(951) 227-8016</a>
           </div>
         </div>
       </footer>
